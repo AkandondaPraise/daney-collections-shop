@@ -86,11 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
             const { data: products, error } = await db
-                .from("products")
-                .select("id, name, price, category, image_url, available")
-                .eq("category", category)
-                .eq("available", true)
-                .order("created_at", { ascending: false });
+    .from("products")
+    .select("id, name, price, category, image_url, available")
+    .eq("category", category)
+    .order("created_at", { ascending: false });
 
             if (error) throw error;
 
@@ -105,62 +104,82 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            products.forEach(function (product) {
-                const card = document.createElement("article");
-                card.className = "product-card";
+           
+products.forEach(function (product) {
+    const card = document.createElement("article");
+    card.className = "product-card";
 
-                // Use the actual photo uploaded by the shop owner
-                const image = document.createElement("img");
-                image.src = product.image_url;
-                image.alt = product.name;
-                image.loading = "lazy";
+    // Product image
+    const image = document.createElement("img");
+    image.src = product.image_url;
+    image.alt = product.name;
+    image.loading = "lazy";
 
-                image.onerror = function () {
-                    image.alt = "Product photo unavailable";
-                    image.style.display = "none";
-                };
+    image.onerror = function () {
+        image.alt = "Product photo unavailable";
+        image.style.display = "none";
+    };
 
-                const name = document.createElement("h3");
-                name.textContent = product.name;
+    // Product name
+    const name = document.createElement("h3");
+    name.textContent = product.name;
 
-                const price = document.createElement("p");
-                price.className = "price";
-                price.textContent =
-                    "UGX " + Number(product.price).toLocaleString("en-UG");
+    // Product price
+    const price = document.createElement("p");
+    price.className = "price";
+    price.textContent =
+        "UGX " + Number(product.price).toLocaleString("en-UG");
 
-                const orderButton = document.createElement("a");
-                orderButton.className = "order-btn button";
-                orderButton.href = "#";
-                orderButton.textContent = "Order on WhatsApp";
+    // Add the product details to the card first
+    card.appendChild(image);
+    card.appendChild(name);
+    card.appendChild(price);
 
-                orderButton.addEventListener("click", function (event) {
-                    event.preventDefault();
+    // Show a red SOLD OUT label when unavailable
+    if (product.available === false) {
+        const soldOutLabel = document.createElement("p");
+        soldOutLabel.textContent = "SOLD OUT";
+        soldOutLabel.style.color = "red";
+        soldOutLabel.style.fontWeight = "bold";
+        soldOutLabel.style.textTransform = "uppercase";
 
-                    const message =
-                        "Hello Daney Collections! I would like to order " +
-                        product.name +
-                        " priced at " +
-                        price.textContent +
-                        ".";
+        card.appendChild(soldOutLabel);
+    }
 
-                    const whatsappURL =
-                        "https://wa.me/256789725765?text=" +
-                        encodeURIComponent(message);
+    // Show WhatsApp ordering only for available products
+    if (product.available === true) {
+        const orderButton = document.createElement("a");
+        orderButton.className = "order-btn button";
+        orderButton.href = "#";
+        orderButton.textContent = "Order on WhatsApp";
 
-                    window.open(
-                        whatsappURL,
-                        "_blank",
-                        "noopener,noreferrer"
-                    );
-                });
+        orderButton.addEventListener("click", function (event) {
+            event.preventDefault();
 
-                card.appendChild(image);
-                card.appendChild(name);
-                card.appendChild(price);
-                card.appendChild(orderButton);
+            const message =
+                "Hello Daney Collections! I would like to order " +
+                product.name +
+                " priced at " +
+                price.textContent +
+                ".";
 
-                productContainer.appendChild(card);
-            });
+            const whatsappURL =
+                "https://wa.me/256789725765?text=" +
+                encodeURIComponent(message);
+
+            window.open(
+                whatsappURL,
+                "_blank",
+                "noopener,noreferrer"
+            );
+        });
+
+        card.appendChild(orderButton);
+    }
+
+    productContainer.appendChild(card);
+});
+
 
             console.log("Products loaded:", products.length);
 
