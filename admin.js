@@ -187,16 +187,26 @@
                     await displayProducts();
                 });
 
-                card.append(
-                    image,
-                    name,
-                    price,
-                    category,
-                    status,
-                    statusButton,
-                    editButton,
-                    deleteButton
-                );
+        const actions = document.createElement("div");
+actions.style.cssText =
+    "display:flex;flex-wrap:wrap;gap:10px;" +
+    "margin-top:12px;";
+
+[statusButton, editButton, deleteButton].forEach(function (button) {
+    button.style.margin = "0";
+    button.style.flex = "1 1 140px";
+    button.style.minHeight = "44px";
+    actions.appendChild(button);
+});
+
+card.append(
+    image,
+    name,
+    price,
+    category,
+    status,
+    actions
+);        
 
                 productList.appendChild(card);
             });
