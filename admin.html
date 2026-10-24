@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management | Daney Collections</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-container h1,
+        .admin-container p {
+            text-align: center;
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .admin-form label {
+            font-weight: bold;
+        }
+
+        .admin-form input,
+        .admin-form select,
+        .admin-form button {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            font: inherit;
+        }
+
+        .admin-form input,
+        .admin-form select {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .admin-form button {
+            background: #afa671;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .admin-note {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f5f2e8;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <h1>Daney Collections</h1>
+        <p>Product Management</p>
+        <nav>
+            <a href="index.html">View Shop</a>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <h1>Add a New Bag</h1>
+        <p>Enter the details of the bag you want to display in the shop.</p>
+
+        <form class="admin-form" id="productForm">
+
+            <div>
+                <label for="productName">Bag name</label>
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="e.g. Elegant Black Handbag"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="productPrice">Price (UGX)</label>
+                <input
+                    type="number"
+                    id="productPrice"
+                    min="1"
+                    step="1"
+                    placeholder="e.g. 45000"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="productCategory">Choose category</label>
+                <select id="productCategory" required>
+                    <option value="">Select a category</option>
+                    <option value="handbags">Handbags</option>
+                    <option value="backpacks">Backpacks</option>
+                    <option value="shoulder-bags">Shoulder Bags</option>
+                    <option value="crossbody-bags">Crossbody Bags</option>
+                    <option value="party-bags">Party Bags</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="productImage">Bag picture</label>
+                <input
+                    type="file"
+                    id="productImage"
+                    accept="image/*"
+                    required
+                >
+            </div>
+
+            <button type="submit">Add Bag</button>
+
+        </form>
+
+        <div class="admin-note">
+            <strong>Important:</strong>
+            This is the first stage of the product-management page.
+            We will connect it to the existing shop and WhatsApp ordering
+            in the next steps.
+        </div>
+    </main>
+        
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+
+<script>
+(async function protectAdminDashboard() {
+    // Keep the dashboard hidden until authorization is checked.
+    document.body.style.visibility = "hidden";
+
+    function showError(message) {
+        document.body.innerHTML = "";
+        document.body.style.visibility = "visible";
+
+        const notice = document.createElement("p");
+        notice.textContent = message;
+        notice.style.cssText =
+            "max-width:600px;margin:60px auto;padding:20px;" +
+            "font:16px Arial,sans-serif;line-height:1.6";
+
+        document.body.appendChild(notice);
+    }
+
+    try {
+        const db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        // 1. Check the current login session.
+        const { data: sessionData, error: sessionError } =
+            await db.auth.getSession();
+
+        if (sessionError) {
+            throw sessionError;
+        }
+
+        if (!sessionData.session) {
+            window.location.replace("login.html");
+            return;
+        }
+
+        // 2. Verify this account is registered as a shop admin.
+        const userId = sessionData.session.user.id;
+
+        const { data: admin, error: adminError } = await db
+            .from("shop_admins")
+            .select("user_id")
+            .eq("user_id", userId)
+            .maybeSingle();
+
+        if (adminError) {
+            throw adminError;
+        }
+
+        if (!admin) {
+            await db.auth.signOut();
+            window.location.replace("login.html");
+            return;
+        }
+
+        // 3. Load product-management code only after authorization.
+        document.body.style.visibility = "visible";
+
+        const script = document.createElement("script");
+        script.src = "admin.js";
+
+        script.onerror = function () {
+            showError(
+                "The dashboard could not load admin.js. " +
+                "Check that the file exists in your website folder."
+            );
+        };
+
+        document.body.appendChild(script);
+
+    
+    } catch (error) {
+        console.error("Admin authorization error:", error);
+
+        showError(
+            "Admin check failed: " +
+            (error.message || "Unknown error") +
+            ". Please send this message to the website developer."
+        );
+    }
+})();
+</script>
+</body>
+</html>

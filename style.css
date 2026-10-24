@@ -1,0 +1,440 @@
+
+/* =====================================
+   DANEY COLLECTIONS - WEBSITE STYLES
+   ===================================== */
+
+/* 1. CHANGE YOUR COLOURS HERE */
+:root {
+    --brown: #afa671;
+    --dark-brown: #bb7755;
+    --cream: #0e0003;
+    --light-cream: #a5794a;
+    --white: #ffffff;
+    --text: #887f04;
+
+    /* Header and navigation */
+    --header-name: #70452f;
+    --nav-text: #3e281d;
+
+    /* Hero banner */
+    --hero-heading: #d9b8ff;
+    --hero-subheading: #eadcff;
+    --hero-text: #ffffff;
+
+    /* Bag categories */
+    --category-heading: #ffffff;
+    --category-intro: #fff0d5;
+    --bag-name: #d4af37;
+    --bag-description: #ffffff;
+    --explore-link: #ffb6c1;
+
+    /* Products */
+    --product-heading: #bb7755;
+    --product-name: #30251f;
+    --product-description: #30251f;
+    --product-price: #afa671;
+
+    /* Contact section */
+    --contact-background: #fffaf4;
+    --contact-heading: #70452f;
+    --contact-text: #30251f;
+    --contact-link: #8b4513;
+
+    /* Footer */
+    --footer-text: #ffffff;
+}
+
+/* 2. GENERAL PAGE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+/* 3. HEADER AND NAVIGATION */
+header {
+    background: var(--white);
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #eaded1;
+}
+
+header h1,
+header .brand,
+.logo {
+    color: var(--header-name);
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--nav-text);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #b0784e;
+}
+
+/* 4. HERO BANNER */
+.hero {
+    min-height: 420px;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+        linear-gradient(
+            rgba(20, 13, 13, 0.55),
+            rgba(19, 12, 12, 0.65)
+        ),
+        url("black-bag.jpg") center/cover no-repeat;
+}
+
+.hero h1 {
+    font-family: "URW Chancery L", "Brush Script MT",
+                 "Segoe Script", cursive;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 900;
+    color: var(--hero-heading);
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+    margin-bottom: 18px;
+    line-height: 1.2;
+}
+
+.hero h2 {
+    color: var(--hero-subheading);
+    font-size: clamp(30px, 5vw, 48px);
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+
+.hero p {
+    color: var(--hero-text);
+    max-width: 650px;
+    margin: 0 auto 25px;
+    font-size: 17px;
+}
+
+/* 5. BUTTONS */
+.btn,
+button {
+    display: inline-block;
+    background: var(--brown);
+    color: var(--white);
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.2s ease;
+}
+
+.btn:hover,
+button:hover {
+    background: var(--dark-brown);
+}
+
+/* 6. BAG COLLECTIONS BACKGROUND */
+.shop-section {
+    width: 100%;
+    max-width: none;
+    padding: 55px 5%;
+    background:
+        linear-gradient(
+            rgba(20, 12, 25, 0.45),
+            rgba(20, 12, 25, 0.45)
+        ),
+        url("images/display.jpg") center/cover no-repeat;
+}
+
+.shop-section h2,
+.shop-section .section-intro {
+    text-align: center;
+}
+
+.shop-section h2 {
+    color: var(--category-heading);
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.shop-section .section-intro {
+    color: var(--category-intro);
+    margin-bottom: 30px;
+}
+
+/* 7. CATEGORY GRID AND BAG PICTURES */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+.category-card {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.category-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: contain;
+    background: var(--white);
+}
+
+.category-info {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.category-info h3 {
+    color: var(--bag-name);
+}
+
+.category-info p {
+    color: var(--bag-description);
+}
+
+.category-info span {
+    color: var(--explore-link);
+    font-weight: bold;
+}
+
+/* 8. PRODUCTS AND PRODUCT CARDS */
+.products {
+    padding: 55px 6%;
+}
+
+.products h2,
+.section-title {
+    text-align: center;
+    color: var(--product-heading);
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--product-description);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product-card {
+    background: var(--white);
+    color: var(--product-name);
+    border: 1px solid #eaded1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(62, 40, 29, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 22px rgba(62, 40, 29, 0.12);
+}
+
+.product-card img {
+        width: 100%;
+    height: 260px;
+    object-fit: contain;
+    display: block;
+    background-color: #f8f5f0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.product-card h3 {
+    padding: 14px 15px 4px;
+    font-size: 18px;
+}
+
+.product-card p {
+    padding: 0 15px 12px;
+}
+
+.product-card .price {
+    color: var(--product-price);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.product-card .btn,
+.product-card button {
+    margin: 0 15px 18px;
+}
+
+/* 9. ABOUT AND CONTACT */
+.about,
+.contact {
+    padding: 50px 6%;
+    text-align: center;
+}
+
+.about {
+    background: var(--light-cream);
+}
+
+.about p,
+.contact p {
+    max-width: 720px;
+    margin: 12px auto;
+}
+
+.contact-details {
+    margin-top: 20px;
+}
+
+.contact-section {
+    width: 100%;
+    padding: 50px 6%;
+    text-align: center;
+    background: var(--contact-background);
+    color: var(--contact-text);
+}
+
+.contact-section h2 {
+    color: var(--contact-heading);
+    margin-bottom: 20px;
+}
+
+.contact-section p {
+    color: var(--contact-text);
+    margin: 12px auto;
+    max-width: 750px;
+}
+
+.contact-section a {
+    color: var(--contact-link);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.contact-section a:hover {
+    color: #b0784e;
+}
+
+/* 10. FOOTER */
+footer {
+    background: var(--dark-brown);
+    color: var(--footer-text);
+    text-align: center;
+    padding: 25px 6%;
+}
+
+footer p {
+    color: var(--footer-text);
+    margin: 5px 0;
+}
+
+/* 11. RESPONSIVE DESIGN FOR PHONES AND TABLETS */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 18px 5%;
+    }
+
+    nav {
+        justify-content: center;
+        gap: 14px;
+    }
+
+    .hero {
+        min-height: 340px;
+        padding: 45px 16px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .products,
+    .about,
+    .contact {
+        padding: 35px 5%;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px;
+    }
+
+    .product-card img {
+        height: 170px;
+    }
+
+    .product-card h3 {
+        font-size: 16px;
+    }
+
+    .product-card .btn,
+    .product-card button {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Daney Collections</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f8f3ef;
+        }
+
+        .login-card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 32px;
+            border-radius: 14px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.09);
+        }
+
+        h1 {
+            text-align: center;
+            color: #543b35;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: bold;
+            color: #443631;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 22px;
+            background: #543b35;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        #message {
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #543b35;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-card">
+        <h1>Daney Collections</h1>
+        <p class="subtitle">Store Administrator Login</p>
+
+        <form id="loginForm">
+            <label for="email">Email address</label>
+            <input
+                type="email"
+                id="email"
+                autocomplete="username"
+                placeholder="Enter your admin email"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit" id="loginButton">
+                Log In
+            </button>
+
+            <p id="message" role="status" aria-live="polite"></p>
+        </form>
+
+        <a class="back-link" href="index.html">
+            Back to the shop
+        </a>
+    </main>
+
+    <!-- Supabase JavaScript library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Your existing Supabase configuration -->
+    <script src="supabase-config.js"></script>
+
+    <script>
+        const db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const form = document.getElementById("loginForm");
+        const message = document.getElementById("message");
+        const button = document.getElementById("loginButton");
+
+        // If already logged in, go to the existing dashboard.
+        db.auth.getSession().then(({ data, error }) => {
+            if (error) {
+                message.textContent = "Could not check your login session.";
+                return;
+            }
+
+            if (data.session) {
+                window.location.replace("admin.html");
+            }
+        });
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            message.textContent = "";
+            button.disabled = true;
+            button.textContent = "Logging in...";
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            try {
+                const { data, error } = await db.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (!data.session) {
+                    throw new Error("Login session was not created.");
+                }
+
+                message.textContent = "Login successful. Opening dashboard...";
+
+                window.location.assign("admin.html");
+            } catch (error) {
+                message.textContent =
+                    "Login failed: " + error.message +
+                    ". Check your email, password and Supabase settings.";
+
+                button.disabled = false;
+                button.textContent = "Log In";
+            }
+        });
+    </script>
+</body>
+</html>

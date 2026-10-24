@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Handbags | Daney Collections</title>
+
+    <meta
+        name="description"
+        content="Explore beautiful handbags at Daney Collections in Mbarara, Uganda. View our collection and order on WhatsApp."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Handbags Page Header -->
+    <header class="hero">
+        <h1>Daney Collections</h1>
+        <h2>Handbags Collection</h2>
+        <p>Discover beautiful handbags for every occasion.</p>
+    </header>
+
+    <!-- Website Navigation -->
+    <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="handbags.html">Handbags</a>
+        <a href="backpacks.html">Backpacks</a>
+        <a href="shoulder-bags.html">Shoulder Bags</a>
+        <a href="crossbody-bags.html">Crossbody Bags</a>
+        <a href="party-bags.html">Party Bags</a>
+    </nav>
+
+    <!-- Products will be loaded from Supabase -->
+    <main class="category-page" data-category="handbags">
+
+        <section>
+            <h2>Explore Our Handbags</h2>
+
+            <div class="category-products" id="categoryProducts">
+                <p>Loading our beautiful collection...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Website Footer -->
+    <footer>
+        <p>Daney Collections — Adorn your story.</p>
+
+        <p>
+            &copy; <span id="year"></span> Daney Collections.
+            All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Supabase Library and Website Settings -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- Website JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
